@@ -93,7 +93,7 @@ namespace AthenaTests
 
             await client.commandHandler.StartJob(task);
 
-            Assert.IsTrue(client.MythicConfig.sleep == 100 && client.MythicConfig.jitter == 5000);
+            Assert.IsTrue(client.currentConfig.sleep == 100 && client.currentConfig.jitter == 5000);
         }
         [TestMethod]
         public async Task TestExit()

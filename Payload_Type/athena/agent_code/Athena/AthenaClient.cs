@@ -22,7 +22,7 @@ namespace Athena
     public class AthenaClient
     {
         public EventHandler SetSleep;
-        public IConfig MythicConfig { get; set; }
+        public IConfig currentConfig { get; set; }
         public IForwarder forwarder { get; set; }
         public CommandHandler commandHandler { get; set; }
         public SocksHandler socksHandler { get; set; }
@@ -30,7 +30,7 @@ namespace Athena
         public AthenaClient()
         {
             this.exit = false;
-            this.MythicConfig = GetConfig();
+            this.currentConfig = GetConfig();
             this.forwarder = GetForwarder();
 
 
@@ -76,8 +76,6 @@ string profile = "Athena.Profiles.SMB";
             }
             return null;
         }
-
-
         private IForwarder GetForwarder()
         {
             string profile = "Athena.Forwarders.SMB";
@@ -119,7 +117,7 @@ string profile = "Athena.Profiles.SMB";
             };
             try
             {
-                var responseString = await this.MythicConfig.currentConfig.Send(ct);
+                var responseString = await this.currentConfig..Send(ct);
 
                 if (String.IsNullOrEmpty(responseString))
                 {
@@ -155,9 +153,9 @@ string profile = "Athena.Profiles.SMB";
             var sleepInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(e.job.task.parameters);
             try
             {
-                this.MythicConfig.sleep = int.Parse((string)sleepInfo["sleep"]);
+                this.currentConfig.sleep = int.Parse((string)sleepInfo["sleep"]);
                 sb.AppendLine($"Updated sleep to: {(string)sleepInfo["sleep"]}");
-                this.MythicConfig.jitter = int.Parse((string)sleepInfo["jitter"]);
+                this.currentConfig.jitter = int.Parse((string)sleepInfo["jitter"]);
                 sb.AppendLine($"Updated jitter to: {(string)sleepInfo["jitter"]}");
             }
             catch
@@ -293,8 +291,7 @@ string profile = "Athena.Profiles.SMB";
 
             try
             {
-                string responseString = this.MythicConfig.currentConfig.Send(gt).Result;
-
+                string responseString = this.currentConfig.currentConfig.Send(gt).Result;
                 if (String.IsNullOrEmpty(responseString))
                 {
                     return null;
@@ -433,7 +430,7 @@ string profile = "Athena.Profiles.SMB";
                 {
                 }
                 //Sleep before attempting checkin again
-                await Task.Delay(await Misc.GetSleep(this.MythicConfig.sleep, this.MythicConfig.jitter) * 1000);
+                await Task.Delay(await Misc.GetSleep(this.currentConfig.sleep, this.currentConfig.jitter) * 1000);
             }
             return res;
         }
@@ -448,15 +445,15 @@ string profile = "Athena.Profiles.SMB";
             {
                 Config.uuid = res.id;
 
-                if (this.MythicConfig.currentConfig.encrypted)
+                if (this.currentConfig.currentConfig.encrypted)
                 {
-                    //if (this.MythicConfig.currentConfig.encryptedExchangeCheck && !String.IsNullOrEmpty(res.encryption_key))
+                    //if (this.currentConfig.currentConfig.encryptedExchangeCheck && !String.IsNullOrEmpty(res.encryption_key))
                     //{
-                    //    this.MythicConfig.currentConfig.crypt = new PSKCrypto(res.id, res.encryption_key);
+                    //    this.currentConfig.currentConfig.crypt = new PSKCrypto(res.id, res.encryption_key);
                     //}
                     //else
                     //{
-                        this.MythicConfig.currentConfig.crypt = new PSKCrypto(res.id, this.MythicConfig.currentConfig.psk);
+                        this.currentConfig.currentConfig.crypt = new PSKCrypto(res.id, this.currentConfig.currentConfig.psk);
                     //}
                 }
                 return true;
