@@ -13,7 +13,7 @@ namespace AthenaTests
         [TestMethod]
         public void TestCheckin()
         {
-            MythicClient client = new MythicClient();
+            AthenaClient client = new AthenaClient();
             CheckinResponse res = client.handleCheckin().Result;
             Assert.IsTrue(res.status == "success");
         }
@@ -21,7 +21,7 @@ namespace AthenaTests
         [TestMethod]
         public async Task TestCheckinAndGetTask()
         {
-            MythicClient client = new MythicClient();
+            AthenaClient client = new AthenaClient();
             CheckinResponse res = client.handleCheckin().Result;
             if (await client.updateAgentInfo(res))
             {

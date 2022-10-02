@@ -19,16 +19,15 @@ using Athena.Models.Config;
 
 namespace Athena
 {
-    public class MythicClient
+    public class AthenaClient
     {
         public EventHandler SetSleep;
         public IConfig MythicConfig { get; set; }
         public IForwarder forwarder { get; set; }
-        //public MythicConfig MythicConfig { get; set; }
         public CommandHandler commandHandler { get; set; }
         public SocksHandler socksHandler { get; set; }
         public bool exit { get; set; }
-        public MythicClient()
+        public AthenaClient()
         {
             this.exit = false;
             this.MythicConfig = GetConfig();
@@ -62,13 +61,13 @@ string profile = "Athena.Profiles.SMB";
 #else
             string profile = "Athena.Profiles.HTTP";
 #endif
-            Assembly _tasksAsm = Assembly.Load($"{profile}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Assembly _profileAsm = Assembly.Load($"{profile}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 
-            if (_tasksAsm == null)
+            if (_profileAsm == null)
             {
-                throw new Exception("Could not find loaded tasks assembly.");
+                throw new Exception("Could not find loaded profile assembly.");
             }
-            foreach (Type t in _tasksAsm.GetTypes())
+            foreach (Type t in _profileAsm.GetTypes())
             {
                 if (typeof(IConfig).IsAssignableFrom(t))
                 {
@@ -83,13 +82,13 @@ string profile = "Athena.Profiles.SMB";
         {
             string profile = "Athena.Forwarders.SMB";
 
-            Assembly _tasksAsm = Assembly.Load($"{profile}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Assembly _forwarderAsm = Assembly.Load($"{profile}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
 
-            if (_tasksAsm == null)
+            if (_forwarderAsm == null)
             {
-                throw new Exception("Could not find loaded tasks assembly.");
+                throw new Exception("Could not find loaded forwarder assembly.");
             }
-            foreach (Type t in _tasksAsm.GetTypes())
+            foreach (Type t in _forwarderAsm.GetTypes())
             {
                 if (typeof(IForwarder).IsAssignableFrom(t))
                 {

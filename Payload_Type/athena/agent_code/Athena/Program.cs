@@ -50,7 +50,7 @@ namespace Athena
             bool exit = false;
 
             //MythicClient controls all of the agent communications
-            MythicClient mc = new MythicClient();
+            AthenaClient mc = new AthenaClient();
 
             //First Checkin-In attempt
             CheckinResponse res = await mc.handleCheckin();

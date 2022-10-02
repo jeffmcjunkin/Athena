@@ -19,7 +19,7 @@ namespace AthenaTests
         {
             byte[] b = File.ReadAllBytes(@"../../../../AthenaPlugins/whoami/bin/Debug/net6.0/whoami.dll");
             string b64encode = Convert.ToBase64String(b);
-            MythicClient client = new MythicClient();
+            AthenaClient client = new AthenaClient();
             MythicTask task = new MythicTask()
             {
                 command = "load",
@@ -47,7 +47,7 @@ namespace AthenaTests
         [TestMethod]
         public async Task TestPluginLoadInvalid()
         {
-            MythicClient client = new MythicClient();
+            AthenaClient client = new AthenaClient();
             MythicTask task = new MythicTask()
             {
                 command = "load",
@@ -65,7 +65,7 @@ namespace AthenaTests
         [TestMethod]
         public async Task TestPluginLoadEmpty()
         {
-            MythicClient client = new MythicClient();
+            AthenaClient client = new AthenaClient();
             MythicTask task = new MythicTask()
             {
                 command = "load",
@@ -83,7 +83,7 @@ namespace AthenaTests
         [TestMethod]
         public async Task TestSleepAndJitter()
         {
-            MythicClient client = new MythicClient();
+            AthenaClient client = new AthenaClient();
             MythicTask task = new MythicTask()
             {
                 command = "sleep",
@@ -98,7 +98,7 @@ namespace AthenaTests
         [TestMethod]
         public async Task TestExit()
         {
-            MythicClient client = new MythicClient();
+            AthenaClient client = new AthenaClient();
             MythicTask task = new MythicTask()
             {
                 command = "exit",

