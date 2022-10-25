@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="Lib.zip" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Lib.zip">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="IronPython" Version="3.4.0-beta1" />
+	</ItemGroup>
+	<ItemGroup>
+		<PluginFiles Include="$(TargetPath)" />
+	</ItemGroup>
+	<Target Name="CopyFiles" AfterTargets="Build">
+		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(SolutionDir)\bin\" SkipUnchangedFiles="false" />
+	</Target>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\Athena.Utilities\Athena.Utilities.csproj" />
+		<ProjectReference Include="..\Athena.Plugins\Athena.Plugins.csproj" />
+	</ItemGroup>
+</Project>

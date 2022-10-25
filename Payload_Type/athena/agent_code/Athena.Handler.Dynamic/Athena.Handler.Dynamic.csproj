@@ -35,6 +35,7 @@
 		<ProjectReference Condition="$(AthenaConstants.Contains(PATCH))" Include="..\AthenaPlugins\patch\patch.csproj" />
 		<ProjectReference Condition="$(AthenaConstants.Contains(PS))" Include="..\AthenaPlugins\ps\ps.csproj" />
 		<ProjectReference Condition="$(AthenaConstants.Contains(PWD))" Include="..\AthenaPlugins\pwd\pwd.csproj" />
+		<ProjectReference Condition="$(AthenaConstants.Contains(PYTHON))" Include="..\AthenaPlugins\python\python.csproj" />
 		<ProjectReference Condition="$(AthenaConstants.Contains(REG))" Include="..\AthenaPlugins\reg\reg.csproj" />
 		<ProjectReference Condition="$(AthenaConstants.Contains(RM))" Include="..\AthenaPlugins\rm\rm.csproj" />
 		<ProjectReference Condition="$(AthenaConstants.Contains(SFTP))" Include="..\AthenaPlugins\sftp\sftp.csproj" />

@@ -245,6 +245,11 @@ namespace Athena.Commands
                     plugin = new Pwd();
                     break;
 #endif
+#if PYTHON
+                case "python":
+                    plugin = new Python();
+                    break;
+#endif
 #if REG
                 case "reg":
                     plugin = new Reg();
